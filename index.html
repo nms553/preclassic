@@ -1,0 +1,177 @@
+﻿<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<style>
+body {
+	width: 975px;
+	margin: auto;
+}
+g {
+	color: rgb(128, 128, 0);
+	font-weight: bold;
+}
+</style>
+
+
+
+</head>
+
+<body bgcolor="66ff66" content="en-us" http-equiv="Content-Language">
+<img border="0" src="http://www.keepingitgreen.com/sbi/pc/pcbanner.jpg" width="100%">
+		<p align="center">Click here for 
+		<a href="http://www.keepingitgreen.com/sbi/pc/ih.htm"><font color="#FF0000">Case IH,</font></a>
+		<a href="http://www.keepingitgreen.com/sbi/pc/ac.htm"><font color="#FF9966">Agco</font></a> and
+		<a href="http://www.keepingitgreen.com/sbi/pc/ford.htm"><font color="#0000FF">Ford</font></a> precisions.
+		<br /><br />
+		PrecisionClassic.com has partnered with CS Weathering 
+		to take the details of the Precision lines to the next level. Click each 
+		model listed for samples of CS Weathering finished products.
+		<a href="http://www.keepingitgreen.com/sbi/pc/weathered/4450/4450.html" target="_blank">John Deere 4450</a> -
+		<a href="http://www.keepingitgreen.com/sbi/pc/weathered/1570/1570.html" target="_blank">Case 1570</a> -
+		<a href="http://www.keepingitgreen.com/sbi/pc/weathered/4840/4840.html" target="_blank">John Deere 4840 </a>-
+		<a href="http://www.keepingitgreen.com/sbi/pc/weathered/5488/5488.html" target="_blank">Case IH 5488</a> -
+		<a href="http://www.keepingitgreen.com/sbi/pc/weathered/4440/4440.html" target="_blank">John Deere 4440</a> -
+		<a href="http://www.keepingitgreen.com/sbi/pc/weathered/856/856.html" target="_blank">Farmall 856</a> -
+		<a href="http://www.keepingitgreen.com/sbi/pc/weathered/560/560.html" target="_blank">Farmall 460 </a>
+		Please contact us for details.</p>
+	<br />
+
+
+
+<table width="100%" border="1" id="table">
+
+
+<!-- <p id="p"></p> -->
+
+</table>
+
+<script>
+$(function()
+{
+var sheetUrl = 'https://spreadsheets.google.com/feeds/list/1WA8kUKQImLMi-6aFWJcGyb6N9wwqmL5kZTJGjIPMLYo/3/public/full?alt=json';
+$.getJSON(sheetUrl, function(data)
+{
+  var entry = data.feed.entry;
+  console.log(entry);
+  
+  entry.forEach(
+  function(item, index) 
+  {
+  if(item.gsx$order.$t !== "")
+{
+id = item.gsx$order.$t;
+  var table = document.getElementById("table");
+  
+//table1.setAttribute("border", 1);
+//table1.setAttribute("id", "turd");
+var tr1 = document.createElement("TR");
+var td1 = document.createElement("TD");
+var td2 = document.createElement("TD");
+var td3 = document.createElement("TD");
+var td4 = document.createElement("TD");
+var table2 = document.createElement("TABLE");
+
+td1.innerHTML = item.gsx$modelinfo.$t.replace(/\n/g, "<br />");
+td2.innerHTML = '<img src="' + item.gsx$picturelink.$t.replace(/\n/g, "<br />") + '"></img>';
+td3.innerHTML = item.gsx$description.$t.replace(/\n/g, "<br />");
+
+table2.setAttribute("id", id);
+table2.setAttribute("border", 1);
+table2.setAttribute("width", "100%");
+
+td1.setAttribute("style", "text-align: center; width: 155px");
+td2.setAttribute("style", "background-color: white; text-align: center; width: 100px");
+td3.setAttribute("style", "text-align: center; width: 165px");
+
+tr1.appendChild(td1);
+tr1.appendChild(td2);
+tr1.appendChild(td3);
+tr1.appendChild(td4);
+td4.appendChild(table2);
+table.appendChild(tr1);
+}
+
+if (item.gsx$paypalprice.$t == "Sold out" || item.gsx$paypalprice.$t == "Sold Out" || item.gsx$paypalprice.$t == "sold out" ) {
+var tr2 = document.createElement("TR");
+var td7 = document.createElement("TD");
+
+td7.innerHTML = "Sold Out";
+td7.setAttribute("style", "text-align: center; width: 100%");
+
+tr2.appendChild(td7);
+document.getElementById(id).appendChild(tr2);
+
+}
+
+else if (item.gsx$paypalprice.$t == "Call" || item.gsx$paypalprice.$t == "call") {
+var tr2 = document.createElement("TR");
+var td5 = document.createElement("TD");
+var td6 = document.createElement("TD");
+
+td5.innerHTML = item.gsx$desc.$t.replace(/\n/g, "<br />");
+td6.innerHTML = item.gsx$paypalprice.$t.replace(/\n/g, "<br />");
+td6.setAttribute("style", "text-align: center;");
+
+tr2.appendChild(td5);
+tr2.appendChild(td6);
+document.getElementById(id).appendChild(tr2);
+}
+
+
+else if (item.gsx$desc.$t !== "") {
+var tr2 = document.createElement("TR");
+var td5 = document.createElement("TD");
+var td6 = document.createElement("TD");
+
+if(item.gsx$seemorelink.$t !== ""){
+td5.innerHTML = item.gsx$desc.$t.replace(/\n/g, "<br />") + '&nbsp;<a href="' + item.gsx$seemorelink.$t.replace(/\n/g, "<br />") + '">See&nbsp;pictures</a>';
+}
+
+else {
+td5.innerHTML = item.gsx$desc.$t.replace(/\n/g, "<br />");
+}
+
+td6.innerHTML = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="paypal" style="margin-bottom:0;">'
++ '<input alt="Make payments with PayPal - it is fast, free and secure!" border="0" name="I8" src="https://www.paypal.com/en_US/i/btn/x-click-but22.gif" type="image">'
++ '<input name="add" type="hidden" value="1">'
++ '<input name="cmd" type="hidden" value="_cart">'
++ '<input name="business" type="hidden" value="precisionclassic@schweissguth.com">'
++ '<input name="item_name" type="hidden" value="'
++ item.gsx$desc.$t + '">'
++ '<input name="item_number" type="hidden" value="'
++ id + '">'
++ '<input name="amount" type="hidden" value="'
++ item.gsx$paypalprice.$t + '">'
++ '<input name="no_note" type="hidden" value="1">'
++ '<input name="currency_code" type="hidden" value="USD">'
++ '<input name="lc" type="hidden" value="US">'
++ '<input name="weight" type="hidden" value="'
++ item.gsx$weight.$t + '">'
++ '<input name="weight_unit" type="hidden" value="lbs">'
++ '</form>';
+
+
+
+td6.setAttribute("style", "text-align: center;");
+td5.setAttribute("style", "width: 100%");
+
+tr2.appendChild(td5);
+tr2.appendChild(td6);
+document.getElementById(id).appendChild(tr2);
+}
+
+
+
+
+
+  });
+  });
+  });
+  </script>
+
+
+</body>
+
+</html>
